@@ -1,0 +1,24 @@
+FROM --platform=linux/amd64 ubuntu:20.04
+
+RUN apt-get update
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y vim less man
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y build-essential
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y automake pkg-config libtool
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y autopoint
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y guile-3.0-dev
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y libglib2.0-dev
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y bison flex
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y libgtk2.0-dev
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y desktop-file-utils
+# RUN DEBIAN_FRONTEND=noninteractive apt-get install -y libgtk-3-dev
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y libgtkextra-dev
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y groff
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y texinfo
+
+COPY . /repo
+WORKDIR /repo
+RUN ./autogen.sh
+RUN ./configure
+RUN make -j8
+RUN make install
+RUN /repo/utils/sch2pcb/src/lepton-sch2pcb -v /test.sch; exit 0

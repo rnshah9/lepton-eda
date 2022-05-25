@@ -1,0 +1,9 @@
+
+project: rnshah9/lepton-eda
+target: lepton-eda
+image: ghcr.io/rnshah9/playground:lepton-eda
+tests: null
+
+cmds:
+  - cmd: /repo/utils/sch2pcb/src/lepton-sch2pcb @@
+    filepath: /test.sch
